@@ -51,15 +51,15 @@ poss(move(agent(X), Direction),S) :-
 on(Object, Loc, result(A,S)) :-
 	A = move(Object, Direction), on(Object, Loc_i, S), connected(Loc_i,Loc, Direction); % Agent doet stap
 	A = push(_,Object,Direction), on(Object, Loc1, S), connected(Loc1, Loc, Direction);%Object is crate which is being pushed
-	A = push(Object,_, Direction), on(Object, Loc_i, S), connected(Loc_i,Loc, Direction); % object is Agent that is pushing
-	on(Object, Loc, S), not(A= move(Object, _));
-	on(Object, Loc, S),  not(A = push(_,Object,_)).
+	A = push(Object,_, Direction), on(Object, Loc_i, S), connected(Loc_i,Loc, Direction); %Object is Agent that is pushing
+	on(Object, Loc, S), not(A= move(Object, _)), not(A = push(Object,_,_));%Object is agent and does not move.
+	on(Object, Loc, S),  not(A = push(_,Object,_)).%Object is crate and does not move.
 
 clear(Loc, result(A,S)):-
 	A = move(Object,_), on(Object, Loc, S);
 	A = push(Object,_,_), on(Object, Loc, S);
 	clear(Loc, S), not(A = move(Object, Direction), on(Object, Loc_i, S), connected(Loc_i,Loc, Direction));
-	clear(Loc, S), not(A = push(_, Object, Direction), on(Object, Loc_i, S), connected(Loc_i, Loc, Direction)).
+	clear(Loc, S), not(A = push(_, Object, Direction), on(Object, Loc_i, S), connected(Loc_i, Loc, Direction)).%probleem is dat het of statements zijn. Als er niet gemoved wordt maar wel gepushed is ie nu al tevreden bij de derde statement en kiest hij dus die locatie leeg...
 
 
 
