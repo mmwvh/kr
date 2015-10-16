@@ -9,7 +9,7 @@
 % marks the predicates whose definition is spread across two or more
 % files
 
-:- multifile on/3, clear/1.
+:- multifile on/3, clear/2.
 
 
 
