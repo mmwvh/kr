@@ -9,7 +9,7 @@
 % marks the predicates whose definition is spread across two or more
 % files
 
-:- multifile on/3, clear/2.
+:- multifile on/3, clear/2, connected/3, agent/1.
 
 
 
@@ -18,7 +18,7 @@
 % actions available to the planner
 %
 primitive_action(move(_,_) ).	% underscore means `anything'
-primitive_action(push(_,_)).
+primitive_action(push(_,_,_)).
 
 
 
@@ -30,10 +30,10 @@ primitive_action(push(_,_)).
 %
 % poss( doSomething(...), S ) :- preconditions(..., S).
 
-poss(push(agent(X),Direction), S) :-
+poss(push(agent(X),Crate,Direction), S) :-
 	on(agent(X), Loc, S),
 	connected(Loc, Loc2, Direction),
-	on(_, Loc2, S),
+	on(Crate, Loc2, S),
 	connected(Loc2, Loc3, Direction),
 	clear(Loc3, S).
 poss(move(agent(X), Direction),S) :-
@@ -49,14 +49,17 @@ poss(move(agent(X), Direction),S) :-
 % fluent(..., result(A,S)) :- positive; previous-state, not(negative).
 
 on(Object, Loc, result(A,S)) :-
-	A = move(Object, Direction), on(Object, Loc_i, S), connected(Loc_i,Loc, Direction);
-	A = push(Agent, Direction), on(Agent, Loc1, S), connected(Loc1, Loc2, Direction),	on(Object, Loc2, S), connected(Loc2, Loc, Direction);
-	A = push(Object, Direction), on(Object, Loc_i, S), connected(Loc_i,Loc, Direction);
-	on(Object, Loc, S), not(A= move(Object, _)).
+	A = move(Object, Direction), on(Object, Loc_i, S), connected(Loc_i,Loc, Direction); % Agent doet stap
+	A = push(_,Object,Direction), on(Object, Loc1, S), connected(Loc1, Loc, Direction);%Object is crate which is being pushed
+	A = push(Object,_, Direction), on(Object, Loc_i, S), connected(Loc_i,Loc, Direction); % object is Agent that is pushing
+	on(Object, Loc, S), not(A= move(Object, _));
+	on(Object, Loc, S),  not(A = push(_,Object,_)).
 
 clear(Loc, result(A,S)):-
 	A = move(Object,_), on(Object, Loc, S);
-	not(A = move(Object, Direction), on(Object, Loc_i, S), connected(Loc_i,Loc, Direction), clear(Loc,S)).
+	A = push(Object,_,_), on(Object, Loc, S);
+	clear(Loc, S), not(A = move(Object, Direction), on(Object, Loc_i, S), connected(Loc_i,Loc, Direction));
+	clear(Loc, S), not(A = push(_, Object, Direction), on(Object, Loc_i, S), connected(Loc_i, Loc, Direction)).
 
 
 
