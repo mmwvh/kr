@@ -72,7 +72,8 @@ on(a, loc3-2, s0).
 
 % --- Goal condition that the planner will try to reach ---------------
 
-goal(S) :- on(blockA, loc1-2, S).					% fill in the goal definition
+goal(S) :- on(blockA, loc1-2, S), on(blockB, loc1-3, S), on(blockC, loc1-1, S).					% fill in the goal definition
+
 
 
 % ---------------------------------------------------------------------

@@ -41,7 +41,7 @@ poss(push(X,C,Loc,Loc2,Loc3,Direction), S) :-
 poss(move(X, Loc, Loc2),S) :-
 	agent(X),
 	on(X, Loc, S),
-	connect(Loc, Loc2),
+	connect(Loc, Loc2, _),
 	clear(Loc2, S).
 
 
@@ -58,7 +58,7 @@ on(Object, Loc, result(A,S)) :-
 	on(Object, Loc, S), not(A = move(Object,Loc,_)), not(A = push(Object,_,Loc,_,_,_)), not(A = push(_,Object,_,Loc,_,_)).%Object does not move.
 
 clear(Loc, result(A,S)):-
-	A = move(_,_,Loc); %Object = agent
+	A = move(_,Loc,_); %Object = agent
 	A = push(_,_,Loc,_,_,_);
 	clear(Loc, S), not(A = move(_,_,Loc)), not(A = push(_,_,_,_,Loc,_)).
 
