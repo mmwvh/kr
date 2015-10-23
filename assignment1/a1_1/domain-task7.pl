@@ -64,12 +64,13 @@ on(Object, Loc, result(A,S)) :-
 	A = move(Object,_,Loc); % Object = Agent
 	A = push(_,Object,_,_,Loc,_);%Object is crate which is being pushed
 	A = push(Object,_,_,Loc,_,_); %Object is Agent that is pushing
-	A = pickUpKey(Object,_,_,Loc);
-	on(Object, Loc, S), not(A = move(Object,Loc,_)), not(A = push(Object,_,Loc,_,_,_)), not(A = push(_,Object,_,Loc,_,_)), not(A = pickUpKey(_,Object,_,_)).%Object does not move.
+	A = pickUpKey(Object,_,_,Loc); %Object is agent that takes step and takes key
+	on(Object, Loc, S), not(A = move(Object,Loc,_)), not(A = push(Object,_,Loc,_,_,_)), not(A = push(_,Object,_,Loc,_,_)),not(A = pickUpKey(Object,_,Loc,_)), not(A = pickUpKey(_,Object,_,Loc)).%Object does not move.
 
 clear(Loc, result(A,S)):-
 	A = move(_,Loc,_); %Object = agent
 	A = push(_,_,Loc,_,_,_);
+	A = pickUpKey(_,_,Loc,_);
 	clear(Loc, S), not(A = move(_,_,Loc)), not(A = push(_,_,_,_,Loc,_)).
 
 hasKey(Agent,Key, result(A,S)):-
