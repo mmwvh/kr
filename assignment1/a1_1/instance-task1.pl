@@ -2,7 +2,7 @@
 % This file is a template for a problem instance: the definition of an
 % initial state and of a goal.
 
-% debug(on).	% need additional debug information at runtime?
+%debug(on).	% need additional debug information at runtime?
 
 
 
@@ -66,7 +66,7 @@ on(a, loc3-2, s0).
 
 % --- Goal condition that the planner will try to reach ---------------
 
-goal(S) :- on(blockA, loc1-2, S), on(blockC, loc1-1, S).					% fill in the goal definition
+goal(S) :- on(blockA, loc1-2, S).					% fill in the goal definition
 
 
 

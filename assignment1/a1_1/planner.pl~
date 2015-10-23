@@ -26,7 +26,7 @@
 % --------------------------= High Level =-----------------------------
 
 % default number of iterations (15)
-plan :- plan(0, 5).
+plan :- plan(0, 6).
 
 % given max number of iterations
 plan(MaxDepth) :- plan(0, MaxDepth).
