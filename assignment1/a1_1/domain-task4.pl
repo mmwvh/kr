@@ -9,7 +9,7 @@
 % marks the predicates whose definition is spread across two or more
 % files
 
-:- multifile on/3, clear/2, hasKey/2.
+:- multifile on/3, clear/2.
 
 
 
@@ -30,19 +30,18 @@ primitive_action(push(_,_,_,_,_,_)).
 %
 % poss( doSomething(...), S ) :- preconditions(..., S).
 
-poss(push(X,C,Loc,Loc2,Loc3,Direction), S) :-
-	agent(X),
+poss(push(A,C,Loc,Loc2,Loc3,Direction), S) :-
+	agent(A),
 	crate(C),
-	hasKey(A,
-	on(X, Loc, S),
+	on(A, Loc, S),
 	connect(Loc, Loc2,Direction),
 	on(C, Loc2, S),
 	connect(Loc2, Loc3,Direction),
 	clear(Loc3, S).
-poss(move(X, Loc, Loc2),S) :-
-	agent(X),
-	on(X, Loc, S),
-	connect(Loc, Loc2),
+poss(move(A, Loc, Loc2),S) :-
+	agent(A),
+	on(A, Loc, S),
+	connect(Loc, Loc2, _),
 	clear(Loc2, S).
 
 
@@ -59,7 +58,7 @@ on(Object, Loc, result(A,S)) :-
 	on(Object, Loc, S), not(A = move(Object,Loc,_)), not(A = push(Object,_,Loc,_,_,_)), not(A = push(_,Object,_,Loc,_,_)).%Object does not move.
 
 clear(Loc, result(A,S)):-
-	A = move(_,_,Loc); %Object = agent
+	A = move(_,Loc,_); %Object = agent
 	A = push(_,_,Loc,_,_,_);
 	clear(Loc, S), not(A = move(_,_,Loc)), not(A = push(_,_,_,_,Loc,_)).
 

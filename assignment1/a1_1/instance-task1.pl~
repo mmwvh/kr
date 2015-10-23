@@ -2,7 +2,7 @@
 % This file is a template for a problem instance: the definition of an
 % initial state and of a goal.
 
-% debug(on).	% need additional debug information at runtime?
+%debug(on).	% need additional debug information at runtime?
 
 
 
