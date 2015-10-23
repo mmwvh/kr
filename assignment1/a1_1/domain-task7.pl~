@@ -19,7 +19,7 @@
 %
 primitive_action(move(_,_,_)).	% underscore means `anything'
 primitive_action(push(_,_,_,_,_,_)).
-primitive_action(pickUpKey(_,_,_,_)).
+primitive_action(pickUpKey(_,_,_)).
 
 
 
@@ -34,8 +34,8 @@ primitive_action(pickUpKey(_,_,_,_)).
 poss(push(A,C,Loc,Loc2,Loc3,Direction), S) :-
 	agent(A),
 	crate(C),
-	rightKey(K,C),
 	hasKey(A,K,S),
+	rightKey(K,C),
 	on(A, Loc, S),
 	connect(Loc, Loc2,Direction),
 	on(C, Loc2, S),
@@ -46,12 +46,12 @@ poss(move(A, Loc, Loc2),S) :-
 	on(A, Loc, S),
 	connect(Loc, Loc2, _),
 	clear(Loc2, S).
-poss(pickUpKey(A,K,Loc,Loc2), S) :-
+poss(pickUpKey(A,K,Loc, Loc2), S) :-
 	agent(A),
-	key(K),
 	on(A, Loc, S),
 	connect(Loc, Loc2, _),
-	on(K, Loc2, S).
+	key(K),
+	on(K, Loc, S).
 
 
 % --- Successor state axioms ------------------------------------------
@@ -64,17 +64,15 @@ on(Object, Loc, result(A,S)) :-
 	A = move(Object,_,Loc); % Object = Agent
 	A = push(_,Object,_,_,Loc,_);%Object is crate which is being pushed
 	A = push(Object,_,_,Loc,_,_); %Object is Agent that is pushing
-	A = pickUpKey(Object,_,_,Loc);
-	on(Object, Loc, S), not(A = move(Object,Loc,_)), not(A = push(Object,_,Loc,_,_,_)), not(A = push(_,Object,_,Loc,_,_)), not(A = pickUpKey(_,Object,_,_)).%Object does not move.
+	on(Object, Loc, S), not(A = move(Object,Loc,_)), not(A = push(Object,_,Loc,_,_,_)), not(A = push(_,Object,_,Loc,_,_)).%Object does not move.
 
 clear(Loc, result(A,S)):-
 	A = move(_,Loc,_); %Object = agent
 	A = push(_,_,Loc,_,_,_);
 	clear(Loc, S), not(A = move(_,_,Loc)), not(A = push(_,_,_,_,Loc,_)).
 
-hasKey(Agent,Key, result(A,S)):-
-	A = pickUpKey(Agent,Key,_,_);
-	hasKey(Agent,Key,S).
+hasKey(Agent,Crate, result(A,S)):-
+	A = move(Agent,_,Loc), on(K, Loc, S), Key(K)
 
 
 
