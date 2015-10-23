@@ -17,7 +17,7 @@
 % this section defines the name and the number of parameters of the
 % actions available to the planner
 %
-primitive_action(move(_,_,_)).	% underscore means `anything'
+primitive_action(move(_,_,_,_) ).	% underscore means `anything'
 primitive_action(push(_,_,_,_,_,_)).
 
 
@@ -30,18 +30,18 @@ primitive_action(push(_,_,_,_,_,_)).
 %
 % poss( doSomething(...), S ) :- preconditions(..., S).
 
-poss(push(X,C,Loc,Loc2,Loc3,Direction), S) :-
-	agent(X),
+poss(push(A,C,Loc,Loc2,Loc3,Direction), S) :-
+	agent(A),
 	crate(C),
-	on(X, Loc, S),
-	connect(Loc, Loc2,Direction),
+	on(A, Loc, S),
+	connect(Loc, Loc2, Direction),
 	on(C, Loc2, S),
-	connect(Loc2, Loc3,Direction),
+	connect(Loc2, Loc3, Direction),
 	clear(Loc3, S).
-poss(move(X, Loc, Loc2),S) :-
+poss(move(X, Loc, Loc2, Direction),S) :-
 	agent(X),
 	on(X, Loc, S),
-	connect(Loc, Loc2),
+	connect(Loc, Loc2, Direction),
 	clear(Loc2, S).
 
 
@@ -52,17 +52,19 @@ poss(move(X, Loc, Loc2),S) :-
 % fluent(..., result(A,S)) :- positive; previous-state, not(negative).
 
 on(Object, Loc, result(A,S)) :-
-	A = move(Object,_,Loc); % Object = Agent
-	A = push(_,Object,_,_,Loc,_);%Object is crate which is being pushed
-	A = push(Object,_,_,Loc,_,_); %Object is Agent that is pushing
-	on(Object, Loc, S), not(A = move(Object,Loc,_)), not(A = push(Object,_,Loc,_,_,_)), not(A = push(_,Object,_,Loc,_,_)).%Object does not move.
+	A = move(Object,_,Loc, Direction); % Object = Agent
+	A = push(_,Object,_,_,Loc,Direction);%Object is crate which is being pushed
+	A = push(Object,_,_,Loc,_,Direction); %Object is Agent that is pushing
+	on(Object, Loc, S), not(A= move(Object,_,_,_)), not(A = push(Object,_,_,_,_,_)), not(A = push(_,Object,_,_,_,_)).%Object does not move.
 
 clear(Loc, result(A,S)):-
-	A = move(_,_,Loc); %Object = agent
-	A = push(_,_,Loc,_,_,_);
-	clear(Loc, S), not(A = move(_,_,Loc)), not(A = push(_,_,_,_,Loc,_)).
+	A = move(Object,Loc,_,_); %Object = agent
+	A = push(Object,_,Loc,_,_,_); %Object = agent
+	clear(Loc, S), not(A= move(Agent,_,Loc,_)), .
 
 
 
 % ---------------------------------------------------------------------
 % ---------------------------------------------------------------------
+
+
