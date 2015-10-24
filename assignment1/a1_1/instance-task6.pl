@@ -51,6 +51,8 @@ connect(loc3-3, loc2-3, w).
 connect(loc1-4, loc2-4, e).
 connect(loc2-4, loc1-4, w).
 
+% ---------------------------------------------------------------------
+
 clear(loc1-1, s0).
 clear(loc1-2, s0).
 clear(loc1-3, s0).
@@ -60,10 +62,13 @@ clear(loc3-1, s0).
 clear(loc3-2, s0).
 clear(loc3-3, s0).
 
+% ---------------------------------------------------------------------
+
 crate(blockA).
 crate(blockB).
 
 agent(a).
+
 on(a, loc2-4, s0).
 on(blockA, loc2-3, s0).
 on(blockB, loc2-2, s0).
@@ -71,7 +76,7 @@ on(blockB, loc2-2, s0).
 
 % --- Goal condition that the planner will try to reach ---------------
 
-goal(S) :- on(blockA, loc1-3, S), on(blockB, loc1-2, S).					% fill in the goal definition
+goal(S) :- on(blockA, loc1-3, S), on(blockB, loc1-2, S).
 
 
 
