@@ -55,3 +55,20 @@ fulladder(SD, COMP, OBS) :-
   COMP = [a1, a2, x1, x2, r1],
   OBS = [in1(fa), ~in2(fa), carryin(fa), out(fa), ~carryout(fa)]. %1+1=1?
 
+%--------------------------------------------------------------------
+
+node(NodeL, EdgeL, S, Children).
+
+isTree(node(_, _, _, Children) :- isForest(Children).
+
+isForest([]).
+isForest([T|Ts]) :- isTree(T), isForest(Ts).
+
+
+isHSTree(node( _, _, _, []).
+isHSTree(T) :-
+	T = node(_,_, CS,[Child|Children]),
+	Child = node(_,e,_,_),
+	member(e,CS),
+	isHSTree(Child)
+.
