@@ -57,23 +57,23 @@ fulladder(SD, COMP, OBS) :-
 
 %--------------------------------------------------------------------
 
-node(NodeL, EdgeL, S, Children).
+node(H, S, Children).
 
-isTree(node(_, _, _, Children)) :- isForest(Children).
+isTree(node(_, _, Children)) :- isForest(Children).
 
 isForest([]).
 isForest([T|Ts]) :- isTree(T), isForest(Ts).
 
 
-isHSTree(node( _, _, _, [])).
-isHSTree(node(_,_, CS,Children)) :-
+isHSTree(node(_, _, [])).
+isHSTree(node(_, CS,Children)) :-
 	isHSTreeLoop(Children, CS).
 
 
-isHSTreeLoop([],CS).
+isHSTreeLoop([],_).
 isHSTreeLoop([Child|Children], CS) :-
-	Child = node(_,e,_,_),
-	member(e, CS),
+	Child = node(H,_,_),
+	ord_intersect(H, CS),
 	isHSTree(Child),
 	isHSTreeLoop(Children, CS).
 
