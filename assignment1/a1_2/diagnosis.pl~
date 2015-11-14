@@ -57,23 +57,40 @@ fulladder(SD, COMP, OBS) :-
 
 %--------------------------------------------------------------------
 
-node(NodeL, EdgeL, S, Children).
+node(HS, CS, Children).
 
-isTree(node(_, _, _, Children)) :- isForest(Children).
+isTree(node(_, _, Children)) :- isForest(Children).
 
 isForest([]).
 isForest([T|Ts]) :- isTree(T), isForest(Ts).
 
 
-isHSTree(node( _, _, _, [])).
-isHSTree(node(_,_, CS,Children)) :-
+isHSTree(node(_, _, [])).
+isHSTree(node(_, CS,Children)) :-
 	isHSTreeLoop(Children, CS).
 
 
-isHSTreeLoop([],CS).
+isHSTreeLoop([],_).
 isHSTreeLoop([Child|Children], CS) :-
-	Child = node(_,e,_,_),
-	member(e, CS),
+	Child = node(H,_,_),
+	ord_intersect(H, CS),
 	isHSTree(Child),
 	isHSTreeLoop(Children, CS).
+
+makeHSTree(_, _, _, _, []).
+makeHSTree(SD,COMP,OBS,HST,CS) :-
+	makeHSTreeLoop(SD,COMP,OBS,HST, CS, Children),
+	HST = node(_,CS, Children)
+	.
+
+makeHSTreeLoop(_,_,_,_,[],_).
+makeHSTreeLoop(SD, COMP, OBS, HST, [E|List], Children) :-
+	HST = node(HS,_,Children),
+	append(HS, [E], HSc),
+	tp(SD,COMP,OBS, HSc, CSc),
+	Child = node(HSc, CSc, []),
+	append(Children, [Child], ChildrenA),
+	makeHSTree(SD,COMP,OBS,Child,CSc),
+	makeHSTreeLoop(SD, COMP, OBS, HST, List, ChildrenA),
+	Children is ChildrenA.
 
