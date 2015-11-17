@@ -72,20 +72,34 @@ isHSTree([Child|Children], CS) :-
 	isHSTree(Children, CS)
 .
 
-makeHSTree(_, _, _, _, []).
-makeHSTree(SD,COMP,OBS,HST,CS) :-
-	makeHSTreeLoop(SD,COMP,OBS,HST, CS, Children),
-	HST = node(_,CS, Children)
+
+makeHSTree(SD,COMP,OBS,HST, HS) :-
+	not(tp(SD,COMP,OBS, HS, _)); %base case
+	tp(SD,COMP,OBS, HS, CS),
+	makeHSTreeLoop(SD,COMP,OBS,HS, CS, Children),
+	HST = node(HS,CS,Children) %
 	.
 
 makeHSTreeLoop(_,_,_,_,[],_).
-makeHSTreeLoop(SD, COMP, OBS, HST, [E|List], Children) :-
-	HST = node(HS,_,Children),
+makeHSTreeLoop(SD, COMP, OBS, HS, [E|List], Children) :-
 	append(HS, [E], HSc),
-	tp(SD,COMP,OBS, HSc, CSc),
-	Child = node(HSc, CSc, []),
-	append(Children, [Child], ChildrenA),
-	makeHSTree(SD,COMP,OBS,Child,CSc),
-	makeHSTreeLoop(SD, COMP, OBS, HST, List, ChildrenA),
-	Children is ChildrenA.
+	makeHSTree(SD,COMP,OBS,Child, HSc),
+	makeHSTreeLoop(SD, COMP, OBS, HS, List, ChildrenB),
+	append(ChildrenB, [Child], Children).
+
+findHS(node(HS,_,[]),SHS) :-
+	sort(HS, SHS).
+findHS(node(_, _, Children), HSS) :-
+	findHSC(Children, HSS).
+
+findHSC([],_).
+findHSC([Child|Children], HSS) :-
+	findHS(Child, HSSA),
+	findHSC(Children, HSSB),
+	append([HSSA],[HSSB], HSS).
+
+
+
+
+
 
