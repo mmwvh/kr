@@ -1,31 +1,33 @@
-0.125::donald(X) ;
-0.125::dagobert(X) ;
-0.125::katrien(X);
-0.125::kwik(X);
-0.125::kwek(X);
-0.125::kwak(X);
-0.125::guus(X);
-0.125::oma(X).
+0.16::donald(X) ;
+0.12::dagobert(X) ;
+0.12::katrien(X);
+0.12::kwik(X);
+0.12::kwek(X);
+0.12::kwak(X);
+0.12::guus(X);
+0.12::oma(X).
 
-0.01::shirt(blauw, X).
-0.01::shirt(paars, X).
-0.01::shirt(roze, X).
-0.01::shirt(rood, X).
-0.01::shirt(oranje, X).
-0.01::shirt(geel, X).
-0.01::shirt(groen, X).
-0.01::shirt(wit, X).
-0.01::shirt(zwart, X).
 
-0.01::hoed(blauw, X).
-0.01::hoed(paars, X).
-0.01::hoed(roze, X).
-0.01::hoed(rood, X).
-0.01::hoed(oranje, X).
-0.01::hoed(geel, X).
-0.01::hoed(groen, X).
-0.01::hoed(wit, X).
-0.01::hoed(zwart, X).
+0.10::shirt(blauw, X);
+0.10::shirt(paars, X);
+0.10::shirt(roze, X);
+0.10::shirt(rood, X);
+0.10::shirt(oranje, X);
+0.10::shirt(geel, X);
+0.10::shirt(groen, X);
+0.10::shirt(wit, X);
+0.10::shirt(zwart, X).
+
+
+0.10::hoed(blauw, X);
+0.10::hoed(paars, X);
+0.10::hoed(roze, X);
+0.10::hoed(rood, X);
+0.10::hoed(oranje, X);
+0.10::hoed(geel, X);
+0.10::hoed(groen, X);
+0.10::hoed(wit, X);
+0.10::hoed(zwart, X).
 
 0.01::schoen(X).
 0.01::slobkous(X).
@@ -52,7 +54,7 @@
 0.05::klein(X) :- donald(X).
 
 %Dagobert
-0.90::hoed(zwart, X):- dagobert(X).
+0.80::hoed(zwart, X):- dagobert(X).
 0.99::bril(X) :- dagobert(X).
 0.79::shirt(rood, X); 0.20::shirt(blauw, X) :- dagobert(X).
 0.90::slobkous(X) :- dagobert(X).
@@ -80,7 +82,7 @@
 0.99::klein(X) :-kwak(X).
 
 %Guus Geluk
-0.20::hoed(rood, X); 0.79::hoed(groen, X) :- guus(X).
+0.20::hoed(rood, X); 0.70::hoed(groen, X) :- guus(X).
 0.99::strik(X) :- guus(X).
 0.79::shirt(rood, X); 0.20::shirt(groen, X) :- guus(X).
 0.99::slobkous(X) :- guus(X).
@@ -92,10 +94,10 @@
 0.99::slobkous(X) :- oma(X).
 0.99::schoen(X) :- oma(X).
 
-evidence(shirt(blauw, a)).
-%evidence(shirt(blauw, a)).
+evidence(shirt(zwart, a)).
+%evidence(shirt(rood, a)).
 %evidence(bril(a)).
-evidence(slobkous(a)).
+%evidence(slobkous(a)).
 %evidence(schoen(a)).
 %evidence(hoed(blauw, a)).
 
