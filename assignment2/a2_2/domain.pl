@@ -1,3 +1,6 @@
+%Donald Duck domein
+
+%A priori
 0.16::donald(X) ;
 0.12::dagobert(X) ;
 0.12::katrien(X);
@@ -7,46 +10,38 @@
 0.12::guus(X);
 0.12::oma(X).
 
+%A priori
+0.05::shirt(blauw, X).
+0.05::shirt(paars, X).
+0.05::shirt(roze, X).
+0.05::shirt(rood, X).
+0.05::shirt(oranje, X).
+0.05::shirt(geel, X).
+0.05::shirt(groen, X).
+0.05::shirt(wit, X).
+0.05::shirt(zwart, X).
 
-0.10::shirt(blauw, X);
-0.10::shirt(paars, X);
-0.10::shirt(roze, X);
-0.10::shirt(rood, X);
-0.10::shirt(oranje, X);
-0.10::shirt(geel, X);
-0.10::shirt(groen, X);
-0.10::shirt(wit, X);
-0.10::shirt(zwart, X).
+%A priori
+0.05::hoed(blauw, X).
+0.05::hoed(paars, X).
+0.05::hoed(roze, X).
+0.05::hoed(rood, X).
+0.05::hoed(oranje, X).
+0.05::hoed(geel, X).
+0.05::hoed(groen, X).
+0.05::hoed(wit, X).
+0.05::hoed(zwart, X).
 
-
-0.10::hoed(blauw, X);
-0.10::hoed(paars, X);
-0.10::hoed(roze, X);
-0.10::hoed(rood, X);
-0.10::hoed(oranje, X);
-0.10::hoed(geel, X);
-0.10::hoed(groen, X);
-0.10::hoed(wit, X);
-0.10::hoed(zwart, X).
-
+%A priori
 0.01::schoen(X).
 0.01::slobkous(X).
 0.01::strik(X).
 0.01::klein(X).
 0.01::bril(X).
 
+% Kansen van characters gebaseerd op schatting n.a.v. image search op Google
+% Nooit een kans van 1.0 omdat dit niet realistisch is
 
-%kleineKansBril(X).
-
-%0.01::bril(X) :- kleineKansBril(X).
-%0.8::bril(X) :- groteKansBril(X).
-
-0.1::strik(X) :- kleineKansStrik(X).
-0.8::strik(X) :- groteKansStrik(X).
-
-%no prob 100% since there is always a chance that it is not there.
-%there are baby donald and daisy comics but no dagobert or Guus
-%
 %Donald
 0.90::hoed(blauw, X) :- donald(X).
 0.99::strik(X) :- donald(X).
@@ -94,12 +89,7 @@
 0.99::slobkous(X) :- oma(X).
 0.99::schoen(X) :- oma(X).
 
-evidence(shirt(zwart, a)).
-%evidence(shirt(rood, a)).
-%evidence(bril(a)).
-%evidence(slobkous(a)).
-%evidence(schoen(a)).
-%evidence(hoed(blauw, a)).
+evidence(shirt(blauw, a)).
 
 query(donald(a)).
 query(dagobert(a)).
@@ -109,4 +99,3 @@ query(kwek(a)).
 query(kwak(a)).
 query(guus(a)).
 query(oma(a)).
-%mogelijk lager abstractie niveau: geometrische vormen van bijv strik of bril.
